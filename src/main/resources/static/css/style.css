@@ -1,0 +1,10 @@
+a:hover,a:visited {text-decoration: none !important;}
+table .th-10 {width : 15%;}
+table.table-striped.list tbody tr:hover { background-color:#ece1be !important; }
+table.table-striped tbody tr { vertical-align: middle; }
+table .td-point { color: #0a53be !important; cursor: pointer; }
+table.dtl-view.table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-accent-bg: none;}
+table.dtl-view.table-striped > tbody > tr.dtl-view-title { background:#ece1be !important;}
+table.dtl-view.table-striped { margin-top:50px;}
+.content-view { width: 60%;margin: 0 auto;}
+.content-view input { width:100%; }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/bootstrap-5.2.2-dist/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<script type="text/javascript" src="/bootstrap-5.2.2-dist/js/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".fn-email-click").click(function(){
+            // let email = $(this).text();
+            let id = $($(this).closest("td").find("input")).val();
+            location.href = "/ian/view?id="+id;
+        });
+        $(".fn-insert-click").click(function(){
+            location.href = "/ian/insert-view";
+        });
+        $(".fn-delete-click").click(function(){
+            if(!confirm("삭제하시겠습니까?")){
+                return;
+            }
+            let id = $($(this).closest("tr").find("input")).val();
+
+            $.ajax({
+                url: "/ian/delete",
+                method: "DELETE",
+                dataType: "text",
+                data: {
+                    "id" : id
+                },
+                success: function (jsonData) {
+                    let data = JSON.parse(jsonData);
+                    console.log(data);
+                    alert(data.message);
+                    if(data.result) {
+                        location.href = "/main";
+                    }
+                }
+            });
+        });
+        $(".fn-disable-click").click(function(){
+            if(!confirm("계정 사용을 중지하시겠습니까?")){
+                return;
+            }
+            let id = $($(this).closest("tr").find("input")).val();
+
+            $.ajax({
+                url: "/ian/disable",
+                method: "PUT",
+                dataType: "text",
+                data: {
+                    "id" : id
+                },
+                success: function (jsonData) {
+                    let data = JSON.parse(jsonData);
+                    console.log(data);
+                    alert(data.message);
+                    if(data.result) {
+                        location.href = "/main";
+                    }
+                }
+            });
+        });
+    });
+</script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ian Project</title>
+</head>
+<body>
+<div class="container">
+    <div class="text-center">
+        <p th:text="${info}+'Project 입니다.'" class="alert">프로젝트</p>
+    </div>
+    <div class="text-end mb-1">
+        <button type="button" class="btn btn-info fn-insert-click">등록</button>
+    </div>
+    <table class="table table-striped list">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">이메일</th>
+                <th scope="col" class="text-center th-15">이름</th>
+                <th scope="col" class="text-center th-15">연락처</th>
+                <th scope="col" class="text-center th-15">상태</th>
+                <th scope="col" class="text-center th-15">삭제여부</th>
+                <th scope="col" class="text-center th-15">마지막 로그인일자</th>
+                <th scope="col" class="text-center th-15">계정사용중지</th>
+                <th scope="col" class="text-center th-15">삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+        <div th:each="users : ${users}">
+            <tr>
+                <td class="text-left"><div class="td-point fn-email-click" th:text="${users.email}"></div><input type="hidden" id="user-id" th:value="${users.id}"></td>
+                <td class="text-center"><div th:text="${users.name}"></div></td>
+                <td class="text-center"><div th:text="${users.cellPhone}"></div></td>
+                <td class="text-center"><div th:text="${users.statusCode}"></div></td>
+                <td class="text-center"><div th:text="${users.isDeleted}"></div></td>
+                <td class="text-center"><div th:text="${users.lastLoginDate}"></div></td>
+                <td class="text-center"><button type="button" class="btn btn-warning fn-disable-click">중지</button></td>
+                <td class="text-center"><button type="button" class="btn btn-danger fn-delete-click">삭제</button></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

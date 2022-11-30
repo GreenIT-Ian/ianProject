@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/bootstrap-5.2.2-dist/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<script type="text/javascript" src="/bootstrap-5.2.2-dist/js/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".fn-insert-click").click(function(){
+            $.ajax({
+                url: "/ian/insert",
+                method: "POST",
+                dataType: "text",
+                data: {
+                    "email" : $("#email").val(),
+                    "name": $("#name").val(),
+                    "cellPhone": $("#cellPhone").val()
+                },
+                success: function (jsonData) {
+                    let data = JSON.parse(jsonData);
+                    console.log(data);
+                    alert(data.message);
+                    if(data.result) {
+                        location.href = "/main";
+                    }
+                }
+            });
+        });
+
+        $(".fn-cancel-click").click(function(){
+            location.href = "/main";
+        });
+    });
+</script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ian Project</title>
+</head>
+<body>
+<div class="container">
+    <div class="content-view">
+        <table class="table table-striped dtl-view">
+            <tbody>
+            <tr>
+                <td colspan="2" class="text-end">
+                    <button type="button" class="btn btn-secondary fn-cancel-click">취소</button>
+                    <button type="button" class="btn btn-info fn-insert-click">저장</button>
+                </td>
+            </tr>
+            <tr class="dtl-view-title">
+                <th colspan="2" class="text-center">사용자 정보</th>
+            </tr>
+            <tr>
+                <th class="text-end">이메일</th>
+                <td class="text-left"><input type="text" id="email"></td>
+            </tr>
+            <tr>
+                <th class="text-end">이름</th>
+                <td class="text-left"><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <th class="text-end">연락처</th>
+                <td class="text-left"><input type="text" id="cellPhone"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

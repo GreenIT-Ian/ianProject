@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/bootstrap-5.2.2-dist/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<script type="text/javascript" src="/bootstrap-5.2.2-dist/js/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".fn-update-click").click(function(){
+            let id = $("#user-id").val();
+            let cellPhone = $("#cellPhone").val();
+
+            $.ajax({
+                url: "/ian/update",
+                method: "PUT",
+                dataType: "text",
+                data: {
+                    "id": id,
+                    "cellPhone": cellPhone
+                },
+                success: function (jsonData) {
+                    let data = JSON.parse(jsonData);
+                    console.log(data);
+                    alert(data.message);
+                    if(data.result) {
+                        location.href = "/main";
+                    }
+                }
+            });
+        });
+
+        $(".fn-cancel-click").click(function(){
+            location.href = "/main";
+        });
+    });
+</script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ian Project</title>
+</head>
+<body>
+<div class="container">
+    <div class="content-view">
+        <table class="table table-striped dtl-view">
+            <tbody>
+            <tr>
+                <td colspan="2" class="text-end">
+                    <button type="button" class="btn btn-secondary fn-cancel-click">취소</button>
+                    <button type="button" class="btn btn-info fn-update-click">저장</button>
+                </td>
+            </tr>
+            <tr class="dtl-view-title">
+                <th colspan="2" class="text-center">상세정보</th>
+            </tr>
+            <tr>
+                <th class="text-end">이메일</th>
+                <td class="text-left"><div th:text="${user.email}"></div><input type="hidden" id="user-id" th:value="${user.id}"></td>
+            </tr>
+            <tr>
+                <th class="text-end">이름</th>
+                <td class="text-left"><div th:text="${user.name}"></div></td>
+            </tr>
+            <tr>
+                <th class="text-end">연락처</th>
+                <td class="text-left"><input type="tel" id="cellPhone" th:value="${user.cellPhone}"></td>
+            </tr>
+            <tr>
+                <th class="text-end">상태</th>
+                <td class="text-left"><div th:text="${user.statusCode}"></div></td>
+            </tr>
+            <tr>
+                <th class="text-end">마지막 로그인일자</th>
+                <td class="text-left"><div th:text="${user.lastLoginDate}"></div></td>
+            </tr>
+            <tr>
+                <th class="text-end">비밀번호 변경일자</th>
+                <td class="text-left"><div th:text="${user.passwordChangeDate}"></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
