@@ -41,4 +41,6 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
