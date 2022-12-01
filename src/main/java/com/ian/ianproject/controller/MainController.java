@@ -3,11 +3,11 @@ package com.ian.ianproject.controller;
 import com.ian.ianproject.dto.CommonResponse;
 import com.ian.ianproject.dto.UserDto;
 import com.ian.ianproject.service.UserService;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -101,7 +101,7 @@ public class MainController {
     @GetMapping("/ian/view")
     public void view(Model model, @RequestParam String id) {
         UserDto user = null;
-        if(StringUtils.isNotEmpty(id)) {
+        if(!StringUtils.isEmpty(id)) {
             user = userService.getUserById(id);
         }
         model.addAttribute("user", user);
